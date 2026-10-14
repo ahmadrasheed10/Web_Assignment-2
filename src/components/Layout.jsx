@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, Outlet } from 'react-router-dom'
+import { Link, NavLink, Outlet } from 'react-router-dom'
 
 export default function Layout() {
   return (
@@ -7,7 +7,11 @@ export default function Layout() {
       <a className="skip-link" href="#main">Skip to content</a>
       <header className="site-header">
         <Link className="brand" to="/" aria-label="Gather home">gather<span>.</span></Link>
-        <nav aria-label="Main navigation"><Link to="/">Home</Link></nav>
+        <nav aria-label="Main navigation">
+          <NavLink to="/">Home</NavLink>
+          <NavLink to="/login">Login</NavLink>
+          <NavLink to="/register">Register</NavLink>
+        </nav>
       </header>
       <main id="main"><Outlet /></main>
       <footer className="site-footer">

@@ -6,9 +6,11 @@ A React application for discovering Ticketmaster events and managing personal ev
 
 ## Current progress
 
-Milestone 1: React project setup, responsive home page, reusable layout, React Router navigation and a not-found page. Redux Toolkit and React Redux are installed for upcoming state management work.
+Milestones 1–2: React project setup, responsive home page, reusable layout, React Router navigation, a not-found page, and login/register forms with validation. Redux Toolkit and React Redux are installed for upcoming state management work.
 
 Event listings, authentication, and event registration are **not implemented yet**. The home page introduces the app; its categories are informational, not live event filters.
+
+Visit `/login` or `/register` to preview the forms. Registration validates name, email, and a password of at least 8 characters; login checks email and a nonempty password. Invalid forms display field errors and focus the first invalid input. Valid forms display a preview message. Forms do not save accounts or create sessions yet.
 
 ## Run locally
 
@@ -37,7 +39,7 @@ Never commit `.env` or a real API key. Vite environment variables are visible in
 ## Planned milestones
 
 - [x] 1. Initial React setup and responsive application shell.
-- [ ] 2. Login and registration pages with form validation.
+- [x] 2. Login and registration pages with form validation.
 - [ ] 3. Redux authentication, persistent sessions, logout, and protected routes.
 - [ ] 4. Ticketmaster API integration, event listing, loading and error states.
 - [ ] 5. Event search, category filters, and event details.
@@ -51,6 +53,7 @@ Each milestone should be implemented and committed as real work progresses.
 ```text
 src/
   components/Layout.jsx  Shared header, footer, and page outlet
+  components/AuthForm.jsx Login and registration form preview
   pages/Home.jsx         Introductory home page
   App.jsx                Routes
   main.jsx               React entry point
