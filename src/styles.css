@@ -85,11 +85,25 @@ h3 { font-size: 22px; margin-bottom: 12px; }
 .event-info p { margin: 5px 0; font-size: 14px; color: #55655e; }
 .event-info .event-date { color: #183c35; font-weight: 600; margin-bottom: 12px; }
 .event-link { display: inline-block; margin-top: 18px; font-size: 14px; font-weight: 600; }
+.event-info h2 a { text-decoration: none; }
+.event-info h2 a:hover { text-decoration: underline; }
+.event-details { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); align-items: start; gap: 40px; margin-top: 30px; }
+.detail-image { border-radius: 10px; }
+.event-details h1 { font-size: clamp(30px, 4vw, 46px); letter-spacing: -1px; overflow-wrap: anywhere; }
+.event-facts { margin: 24px 0; }
+.event-facts > div { display: grid; grid-template-columns: 85px minmax(0, 1fr); gap: 15px; padding: 10px 0; border-bottom: 1px solid #d7dfd7; }
+.event-facts dt { font-weight: 700; }
+.event-facts dd { margin: 0; overflow-wrap: anywhere; }
+.event-status { text-transform: capitalize; }
+.detail-section { margin: 25px 0; }
+.detail-section h2 { font-size: 24px; margin: 0 0 12px; }
+.detail-section p { white-space: pre-line; overflow-wrap: anywhere; }
 .development-note code { overflow-wrap: anywhere; }
 button.button { font: inherit; border: 0; cursor: pointer; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 @media (max-width: 1000px) { .event-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 760px) {
+  .event-details { grid-template-columns: 1fr; gap: 20px; }
   .event-grid { grid-template-columns: 1fr; }
   .site-header { gap: 20px; flex-wrap: wrap; }
   .auth-page { margin-top: 35px; }

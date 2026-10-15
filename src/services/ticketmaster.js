@@ -14,6 +14,12 @@ export function normalizeEvent(event) {
     category: event.classifications?.[0]?.segment?.name || 'Other',
     image: image?.url?.startsWith('https://') ? image.url : null,
     url: event.url?.startsWith('https://') ? event.url : null,
+    description: event.info || '',
+    notes: event.pleaseNote || '',
+    address: venue?.address?.line1 || '',
+    genre: event.classifications?.[0]?.genre?.name || '',
+    status: event.dates?.status?.code || '',
+    prices: (event.priceRanges || []).map(({ min, max, currency }) => ({ min, max, currency })),
   }
 }
 
@@ -27,18 +33,31 @@ export async function fetchUpcomingEvents({ apiKey = import.meta.env?.VITE_TICKE
   })
   if (keyword.trim()) params.set('keyword', keyword.trim())
   if (category) params.set('segmentName', category)
+  const data = await requestTicketmaster('events.json', { apiKey, signal, params })
+  const events = data._embedded?.events || []
+  if (!Array.isArray(events)) throw new Error('Ticketmaster returned an unexpected response. Please try again.')
+  return events.filter((event) => event?.id).map(normalizeEvent)
+}
+
+export async function fetchEventDetails(id, { apiKey = import.meta.env?.VITE_TICKETMASTER_API_KEY, signal } = {}) {
+  const data = await requestTicketmaster(`events/${encodeURIComponent(id)}.json`, { apiKey, signal })
+  if (!data?.id) throw new Error('Ticketmaster returned an unexpected response. Please try again.')
+  return normalizeEvent(data)
+}
+
+async function requestTicketmaster(path, { apiKey, signal, params = new URLSearchParams() }) {
+  if (!apiKey?.trim()) throw new Error('Add your Ticketmaster API key to .env, then restart the dev server.')
+  params.set('apikey', apiKey.trim())
   let response
   try {
-    response = await fetch(`https://app.ticketmaster.com/discovery/v2/events.json?${params}`, { signal })
+    response = await fetch(`https://app.ticketmaster.com/discovery/v2/${path}?${params}`, { signal })
   } catch (error) {
     if (error.name === 'AbortError') throw error
     throw new Error('Could not connect to Ticketmaster. Check your connection and try again.')
   }
   if (response.status === 401 || response.status === 403) throw new Error('Ticketmaster rejected the API key. Check your .env setting and restart the dev server.')
   if (response.status === 429) throw new Error('Ticketmaster is receiving too many requests. Please try again later.')
+  if (response.status === 404) throw new Error('This event could not be found. It may no longer be available.')
   if (!response.ok) throw new Error('Events could not be loaded. Please try again.')
-  const data = await response.json()
-  const events = data._embedded?.events || []
-  if (!Array.isArray(events)) throw new Error('Ticketmaster returned an unexpected response. Please try again.')
-  return events.filter((event) => event?.id).map(normalizeEvent)
+  return response.json()
 }
