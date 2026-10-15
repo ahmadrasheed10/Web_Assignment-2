@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link, Navigate } from 'react-router-dom'
+import { Link, Navigate, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { authenticate, clearError } from '../store/auth'
 
@@ -8,8 +8,11 @@ export default function AuthForm({ mode }) {
   const [errors, setErrors] = useState({})
   const dispatch = useDispatch()
   const { user, status, error } = useSelector((state) => state.auth)
+  const location = useLocation()
+  const from = location.state?.from
+  const destination = typeof from === 'string' && from.startsWith('/') && !from.startsWith('//') && !/^\/(login|register)(\/|$)/.test(from) ? from : '/'
 
-  if (user) return <Navigate to="/" replace />
+  if (user) return <Navigate to={destination} replace />
 
   function handleSubmit(event) {
     event.preventDefault()
@@ -79,7 +82,7 @@ export default function AuthForm({ mode }) {
         <p className="field-error" role="alert">{error}</p>
         <p className="auth-switch">
           {isRegister ? 'Already have an account? ' : 'New to Gather? '}
-          <Link to={isRegister ? '/login' : '/register'}>{isRegister ? 'Login' : 'Register'}</Link>
+          <Link to={isRegister ? '/login' : '/register'} state={{ from: destination }}>{isRegister ? 'Login' : 'Register'}</Link>
         </p>
       </form>
     </section>

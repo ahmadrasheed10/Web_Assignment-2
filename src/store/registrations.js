@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { hasEventPassed } from '../utils/eventDate.js'
 
 const storageKey = 'gather.registrations'
 
@@ -19,8 +20,8 @@ export const saveRegistration = createAsyncThunk('registrations/save', ({ event,
   if (!user) return rejectWithValue('Please login to register for an event.')
   if (!event?.id) return rejectWithValue('Please select an event first.')
   if (!cancel && event.status === 'cancelled') return rejectWithValue('This event has been cancelled.')
-  if (!cancel && event.dateTime && new Date(event.dateTime).getTime() <= Date.now()) {
-    return rejectWithValue('Registration has closed for this event.')
+  if (hasEventPassed(event)) {
+    return rejectWithValue(cancel ? 'Past event registrations cannot be cancelled.' : 'Registration has closed for this event.')
   }
 
   try {

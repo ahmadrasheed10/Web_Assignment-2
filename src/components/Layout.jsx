@@ -16,6 +16,7 @@ export default function Layout() {
           <NavLink to="/events">Events</NavLink>
           {user ? (
             <>
+              <NavLink to="/my-events">My Events</NavLink>
               <span className="user-name">Hi, {user.name}</span>
               <button className="nav-button" disabled={status === 'loading'} onClick={() => dispatch(logout())}>Logout</button>
             </>

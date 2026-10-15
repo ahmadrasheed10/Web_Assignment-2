@@ -10,6 +10,7 @@ export function normalizeEvent(event) {
     date: start?.dateTBA || start?.dateTBD ? null : start?.localDate || null,
     time: start?.timeTBA || start?.noSpecificTime ? null : start?.localTime || null,
     dateTime: start?.dateTime || null,
+    timezone: event.dates?.timezone || venue?.timezone || null,
     venue: venue?.name || 'Venue to be announced',
     location: [venue?.city?.name, venue?.state?.stateCode, venue?.country?.name].filter(Boolean).join(', '),
     category: event.classifications?.[0]?.segment?.name || 'Other',

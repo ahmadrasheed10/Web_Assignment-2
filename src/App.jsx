@@ -5,6 +5,8 @@ import Home from './pages/Home'
 import AuthForm from './components/AuthForm'
 import Events from './pages/Events'
 import EventDetails from './pages/EventDetails'
+import MyEvents from './pages/MyEvents'
+import ProtectedRoute from './components/ProtectedRoute'
 
 export default function App() {
   return (
@@ -13,6 +15,7 @@ export default function App() {
         <Route index element={<Home />} />
         <Route path="events" element={<Events />} />
         <Route path="events/:id" element={<EventDetails />} />
+        <Route path="my-events" element={<ProtectedRoute><MyEvents /></ProtectedRoute>} />
         <Route path="login" element={<AuthForm key="login" mode="login" />} />
         <Route path="register" element={<AuthForm key="register" mode="register" />} />
         <Route path="*" element={

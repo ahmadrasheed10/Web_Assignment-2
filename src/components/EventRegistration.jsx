@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { saveRegistration } from '../store/registrations'
+import { hasEventPassed } from '../utils/eventDate'
 
 export default function EventRegistration({ event }) {
   const dispatch = useDispatch()
@@ -9,7 +10,8 @@ export default function EventRegistration({ event }) {
   const registered = useSelector((state) => Boolean(user && state.registrations.byUser[user.id]?.some((item) => item.event.id === event.id)))
   const [busy, setBusy] = useState(false)
   const [feedback, setFeedback] = useState(null)
-  const closed = event.status === 'cancelled' || Boolean(event.dateTime && new Date(event.dateTime).getTime() <= Date.now())
+  const completed = hasEventPassed(event)
+  const closed = event.status === 'cancelled' || completed
 
   async function handleRegistration() {
     setBusy(true)
@@ -27,11 +29,12 @@ export default function EventRegistration({ event }) {
     <div className="registration-box">
       <h2>{registered ? 'You’re registered' : 'Join this event'}</h2>
       <p>This saves your registration in Gather. Tickets are purchased separately through Ticketmaster.</p>
-      {!user ? <Link className="button" to="/login">Login to register</Link> : (
-        <button className="button" disabled={busy || (!registered && closed)} onClick={handleRegistration}>
-          {busy ? 'Saving…' : registered ? 'Cancel registration' : closed ? 'Registration closed' : 'Register for event'}
+      {!user ? <Link className="button" to="/login" state={{ from: `/events/${encodeURIComponent(event.id)}` }}>Login to register</Link> : (
+        <button className="button" disabled={busy || completed || (!registered && closed)} onClick={handleRegistration}>
+          {busy ? 'Saving…' : completed ? 'Registration closed' : registered ? 'Cancel registration' : closed ? 'Registration closed' : 'Register for event'}
         </button>
       )}
+      {registered && <p><Link to="/my-events">View My Events</Link></p>}
       {feedback && <p className={feedback.error ? 'field-error' : 'form-status'} role={feedback.error ? 'alert' : 'status'}>{feedback.text}</p>}
     </div>
   )
