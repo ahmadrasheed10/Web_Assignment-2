@@ -1,10 +1,15 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { authenticate, clearError } from '../store/auth'
 
 export default function AuthForm({ mode }) {
   const isRegister = mode === 'register'
   const [errors, setErrors] = useState({})
-  const [message, setMessage] = useState('')
+  const dispatch = useDispatch()
+  const { user, status, error } = useSelector((state) => state.auth)
+
+  if (user) return <Navigate to="/" replace />
 
   function handleSubmit(event) {
     event.preventDefault()
@@ -27,18 +32,18 @@ export default function AuthForm({ mode }) {
     }
 
     setErrors(nextErrors)
-    setMessage('')
+    dispatch(clearError())
     if (Object.keys(nextErrors).length) {
       event.currentTarget.elements.namedItem(Object.keys(nextErrors)[0]).focus()
       return
     }
 
-    setMessage('Your form looks good. Account sign-in and saving will be added in the next update.')
+    dispatch(authenticate({ name, email, password, isRegister }))
   }
 
   function clearFeedback() {
     setErrors({})
-    setMessage('')
+    dispatch(clearError())
   }
 
   return (
@@ -49,7 +54,8 @@ export default function AuthForm({ mode }) {
         <p>{isRegister ? 'Create your account to keep your favourite experiences together.' : 'Sign in to manage your events.'}</p>
       </div>
       <form className="auth-form" onSubmit={handleSubmit} onChange={clearFeedback} noValidate>
-        <p className="form-note">Form preview: accounts and login sessions are coming in the next update. No account data is saved yet.</p>
+        <p className="form-note">Accounts are saved in this browser for this class project. Use a practice password.</p>
+        <fieldset className="auth-fields" disabled={status === 'loading'}>
         {isRegister && (
           <div className="form-field">
             <label htmlFor="name">Name</label>
@@ -68,8 +74,9 @@ export default function AuthForm({ mode }) {
           {isRegister && <p id="password-hint" className="field-hint">Use at least 8 characters.</p>}
           {errors.password && <p id="password-error" className="field-error">{errors.password}</p>}
         </div>
-        <button className="button" type="submit">Check form</button>
-        <p className="form-status" role="status">{message}</p>
+        <button className="button" type="submit">{status === 'loading' ? 'Please wait…' : isRegister ? 'Create account' : 'Login'}</button>
+        </fieldset>
+        <p className="field-error" role="alert">{error}</p>
         <p className="auth-switch">
           {isRegister ? 'Already have an account? ' : 'New to Gather? '}
           <Link to={isRegister ? '/login' : '/register'}>{isRegister ? 'Login' : 'Register'}</Link>

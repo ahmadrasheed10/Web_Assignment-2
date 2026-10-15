@@ -13,6 +13,12 @@ a:focus-visible, button:focus-visible, input:focus-visible { outline: 3px solid 
 nav a { text-decoration: none; font-weight: 600; }
 nav a:hover { text-decoration: underline; }
 nav { display: flex; gap: 20px; flex-wrap: wrap; }
+.nav-button { border: 0; padding: 0; background: none; color: inherit; font: inherit; font-weight: 600; cursor: pointer; }
+.nav-button:hover { text-decoration: underline; }
+.nav-button:disabled { opacity: .6; cursor: wait; }
+.user-name { overflow-wrap: anywhere; }
+.auth-fields { border: 0; padding: 0; margin: 0; min-width: 0; }
+.auth-fields:disabled { opacity: .65; }
 nav a.active { text-decoration: underline; text-underline-offset: 6px; }
 .hero { display: grid; grid-template-columns: 1.2fr 1fr; align-items: center; gap: 50px; padding: 75px 0; }
 .eyebrow, .category-number { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; }

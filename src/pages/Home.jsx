@@ -29,7 +29,7 @@ export default function Home() {
           <article><span className="category-number">02 / SPORTS</span><h3>Join the crowd.</h3><p>Big games and the energy you only get from being there.</p></article>
           <article><span className="category-number">03 / ARTS & THEATRE</span><h3>See a new story.</h3><p>Stage performances, creative experiences, and memorable nights.</p></article>
         </div>
-        <p className="development-note">Gather is under development. Live event listings and account features are coming in the next milestones.</p>
+        <p className="development-note">Gather is under development. Live event listings are coming soon.</p>
       </section>
     </>
   )
