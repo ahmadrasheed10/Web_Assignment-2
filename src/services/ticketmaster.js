@@ -17,7 +17,7 @@ export function normalizeEvent(event) {
   }
 }
 
-export async function fetchUpcomingEvents({ apiKey = import.meta.env?.VITE_TICKETMASTER_API_KEY, signal } = {}) {
+export async function fetchUpcomingEvents({ apiKey = import.meta.env?.VITE_TICKETMASTER_API_KEY, signal, keyword = '', category = '' } = {}) {
   if (!apiKey?.trim()) throw new Error('Add your Ticketmaster API key to .env, then restart the dev server.')
   const params = new URLSearchParams({
     apikey: apiKey.trim(),
@@ -25,6 +25,8 @@ export async function fetchUpcomingEvents({ apiKey = import.meta.env?.VITE_TICKE
     sort: 'date,asc',
     startDateTime: new Date().toISOString().replace(/\.\d{3}Z$/, 'Z'),
   })
+  if (keyword.trim()) params.set('keyword', keyword.trim())
+  if (category) params.set('segmentName', category)
   let response
   try {
     response = await fetch(`https://app.ticketmaster.com/discovery/v2/events.json?${params}`, { signal })

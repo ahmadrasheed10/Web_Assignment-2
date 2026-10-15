@@ -5,7 +5,7 @@
 body { margin: 0; }
 a { color: inherit; }
 button, a { -webkit-tap-highlight-color: transparent; }
-a:focus-visible, button:focus-visible, input:focus-visible { outline: 3px solid #a64c21; outline-offset: 5px; }
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid #a64c21; outline-offset: 5px; }
 .app { max-width: 1440px; margin: auto; padding: 0 6%; }
 .site-header { display: flex; justify-content: space-between; align-items: center; padding: 25px 0; border-bottom: 1px solid #d7dfd7; }
 .brand { font-family: 'Manrope', sans-serif; font-size: 30px; font-weight: 800; text-decoration: none; letter-spacing: -1.5px; }
@@ -69,6 +69,13 @@ h3 { font-size: 22px; margin-bottom: 12px; }
 .events-page { padding: 45px 0 70px; min-height: 65vh; }
 .events-page > h1 { font-size: clamp(36px, 5vw, 54px); }
 .events-page > .intro { max-width: 650px; }
+.event-search { margin: 30px 0; }
+.event-search fieldset { display: flex; gap: 18px; align-items: end; flex-wrap: wrap; border: 1px solid #d7dfd7; border-radius: 8px; padding: 22px; margin: 0; min-width: 0; }
+.search-field { flex: 1 1 200px; min-width: 0; }
+.search-field label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+.search-field input, .search-field select { width: 100%; min-width: 0; font: inherit; color: #183c35; background: white; border: 1px solid #a8b7ac; border-radius: 5px; padding: 12px; }
+.event-search .nav-button { align-self: center; margin-top: 25px; }
+.event-search fieldset:disabled { opacity: .65; }
 .event-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
 .event-card { border: 1px solid #d7dfd7; border-radius: 10px; overflow: hidden; background: white; }
 .event-image { aspect-ratio: 16 / 9; background: #e6eacb; display: grid; place-items: center; overflow: hidden; color: #183c35; }
