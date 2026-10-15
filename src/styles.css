@@ -98,6 +98,10 @@ h3 { font-size: 22px; margin-bottom: 12px; }
 .detail-section { margin: 25px 0; }
 .detail-section h2 { font-size: 24px; margin: 0 0 12px; }
 .detail-section p { white-space: pre-line; overflow-wrap: anywhere; }
+.registration-box { margin: 28px 0; padding: 22px; background: #ebeee5; border-radius: 8px; }
+.registration-box h2 { font-size: 24px; margin: 0 0 12px; }
+.registration-box > p { font-size: 14px; }
+.registration-box button:disabled { opacity: .6; cursor: default; }
 .development-note code { overflow-wrap: anywhere; }
 button.button { font: inherit; border: 0; cursor: pointer; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }

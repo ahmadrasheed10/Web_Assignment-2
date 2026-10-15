@@ -3,11 +3,13 @@ import { Link, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { loadEventDetails } from '../store/events'
 import { formatDate } from '../utils/formatDate'
+import EventRegistration from '../components/EventRegistration'
 
 export default function EventDetails() {
   const { id } = useParams()
   const dispatch = useDispatch()
   const { detail: event, detailId, detailStatus, detailError } = useSelector((state) => state.events)
+  const userId = useSelector((state) => state.auth.user?.id || 'guest')
 
   useEffect(() => { dispatch(loadEventDetails(id)) }, [dispatch, id])
 
@@ -39,6 +41,7 @@ export default function EventDetails() {
             {event.prices.length > 0 && <div className="detail-section"><h2>Ticket prices</h2>{event.prices.map((price, index) => <p key={index}>{price.currency} {price.min} – {price.max}</p>)}<p className="field-hint">Prices are provided by Ticketmaster and may exclude fees.</p></div>}
             {event.description && <div className="detail-section"><h2>About this event</h2><p>{event.description}</p></div>}
             {event.notes && <div className="detail-section"><h2>Before you go</h2><p>{event.notes}</p></div>}
+            <EventRegistration key={`${event.id}-${userId}`} event={event} />
             {event.url && <a className="button" href={event.url} target="_blank" rel="noopener noreferrer">View on Ticketmaster ↗<span className="sr-only"> (opens in a new tab)</span></a>}
           </div>
         </div>
