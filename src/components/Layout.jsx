@@ -13,6 +13,7 @@ export default function Layout() {
         <Link className="brand" to="/" aria-label="Gather home">gather<span>.</span></Link>
         <nav aria-label="Main navigation">
           <NavLink to="/">Home</NavLink>
+          <NavLink to="/events">Events</NavLink>
           {user ? (
             <>
               <span className="user-name">Hi, {user.name}</span>

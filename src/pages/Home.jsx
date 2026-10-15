@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 export default function Home() {
   return (
@@ -8,7 +9,7 @@ export default function Home() {
           <p className="eyebrow">Go out. Be there.</p>
           <h1 id="hero-title">Good moments.<br /><em>Great company.</em></h1>
           <p className="intro">A place to find your next live experience — from your favourite artists to a night of something new.</p>
-          <a className="button" href="#explore">Explore Gather <span aria-hidden="true">↗</span></a>
+          <Link className="button" to="/events">Explore events <span aria-hidden="true">↗</span></Link>
         </div>
         <div className="hero-art" aria-hidden="true">
           <div className="orbit orbit-one" />
@@ -29,7 +30,7 @@ export default function Home() {
           <article><span className="category-number">02 / SPORTS</span><h3>Join the crowd.</h3><p>Big games and the energy you only get from being there.</p></article>
           <article><span className="category-number">03 / ARTS & THEATRE</span><h3>See a new story.</h3><p>Stage performances, creative experiences, and memorable nights.</p></article>
         </div>
-        <p className="development-note">Gather is under development. Live event listings are coming soon.</p>
+        <p className="development-note">Find a plan worth going out for. <Link to="/events">Browse upcoming events.</Link></p>
       </section>
     </>
   )

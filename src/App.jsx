@@ -3,12 +3,14 @@ import { Link, Route, Routes } from 'react-router-dom'
 import Layout from './components/Layout'
 import Home from './pages/Home'
 import AuthForm from './components/AuthForm'
+import Events from './pages/Events'
 
 export default function App() {
   return (
     <Routes>
       <Route element={<Layout />}>
         <Route index element={<Home />} />
+        <Route path="events" element={<Events />} />
         <Route path="login" element={<AuthForm key="login" mode="login" />} />
         <Route path="register" element={<AuthForm key="register" mode="register" />} />
         <Route path="*" element={
