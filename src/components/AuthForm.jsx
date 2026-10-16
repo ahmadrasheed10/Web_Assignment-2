@@ -44,8 +44,13 @@ export default function AuthForm({ mode }) {
     dispatch(authenticate({ name, email, password, isRegister }))
   }
 
-  function clearFeedback() {
-    setErrors({})
+  function clearFeedback(event) {
+    const field = event.target.name
+    setErrors((current) => {
+      const next = { ...current }
+      delete next[field]
+      return next
+    })
     dispatch(clearError())
   }
 

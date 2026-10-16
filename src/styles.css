@@ -10,10 +10,10 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .site-header { display: flex; justify-content: space-between; align-items: center; padding: 25px 0; border-bottom: 1px solid #d7dfd7; }
 .brand { font-family: 'Manrope', sans-serif; font-size: 30px; font-weight: 800; text-decoration: none; letter-spacing: -1.5px; }
 .brand span { color: #bb572f; }
-nav a { text-decoration: none; font-weight: 600; }
+nav a { display: inline-flex; align-items: center; min-height: 44px; text-decoration: none; font-weight: 600; }
 nav a:hover { text-decoration: underline; }
-nav { display: flex; gap: 20px; flex-wrap: wrap; }
-.nav-button { border: 0; padding: 0; background: none; color: inherit; font: inherit; font-weight: 600; cursor: pointer; }
+nav { display: flex; gap: 20px; flex-wrap: wrap; align-items: center; }
+.nav-button { min-height: 44px; border: 0; padding: 0; background: none; color: inherit; font: inherit; font-weight: 600; cursor: pointer; }
 .nav-button:hover { text-decoration: underline; }
 .nav-button:disabled { opacity: .6; cursor: wait; }
 .user-name { overflow-wrap: anywhere; }
