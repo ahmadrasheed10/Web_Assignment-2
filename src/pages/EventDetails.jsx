@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { loadEventDetails } from '../store/events'
 import { formatDate } from '../utils/formatDate'
 import EventRegistration from '../components/EventRegistration'
+import EventImage from '../components/EventImage'
 
 export default function EventDetails() {
   const { id } = useParams()
@@ -24,9 +25,7 @@ export default function EventDetails() {
         </div>
       ) : event && (
         <div className="event-details">
-          <div className="event-image detail-image">
-            {event.image ? <img src={event.image} alt="" onError={(e) => { e.currentTarget.style.display = 'none' }} /> : <span>Gather live</span>}
-          </div>
+          <EventImage src={event.image} className="detail-image" eager />
           <div>
             <p className="eyebrow">{event.category}</p>
             <h1>{event.name}</h1>

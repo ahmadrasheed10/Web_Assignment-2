@@ -9,11 +9,11 @@ export function normalizeEvent(event) {
     name: event.name || 'Untitled event',
     date: start?.dateTBA || start?.dateTBD ? null : start?.localDate || null,
     time: start?.timeTBA || start?.noSpecificTime ? null : start?.localTime || null,
-    dateTime: start?.dateTime || null,
+    dateTime: start?.dateTBA || start?.dateTBD ? null : start?.dateTime || null,
     timezone: event.dates?.timezone || venue?.timezone || null,
     venue: venue?.name || 'Venue to be announced',
     location: [venue?.city?.name, venue?.state?.stateCode, venue?.country?.name].filter(Boolean).join(', '),
-    category: event.classifications?.[0]?.segment?.name || 'Other',
+    category: event.classifications?.[0]?.segment?.name && event.classifications[0].segment.name !== 'Undefined' ? event.classifications[0].segment.name : 'Other',
     image: image?.url?.startsWith('https://') ? image.url : null,
     url: event.url?.startsWith('https://') ? event.url : null,
     description: event.info || '',
@@ -52,8 +52,10 @@ async function requestTicketmaster(path, { apiKey, signal, params = new URLSearc
   params.set('apikey', apiKey.trim())
   let response
   try {
-    response = await fetch(`https://app.ticketmaster.com/discovery/v2/${path}?${params}`, { signal })
+    const timeout = AbortSignal.timeout(20000)
+    response = await fetch(`https://app.ticketmaster.com/discovery/v2/${path}?${params}`, { signal: signal ? AbortSignal.any([signal, timeout]) : timeout })
   } catch (error) {
+    if (error.name === 'TimeoutError') throw new Error('Ticketmaster took too long to respond. Please try again.')
     if (error.name === 'AbortError') throw error
     throw new Error('Could not connect to Ticketmaster. Check your connection and try again.')
   }
@@ -61,5 +63,11 @@ async function requestTicketmaster(path, { apiKey, signal, params = new URLSearc
   if (response.status === 429) throw new Error('Ticketmaster is receiving too many requests. Please try again later.')
   if (response.status === 404) throw new Error('This event could not be found. It may no longer be available.')
   if (!response.ok) throw new Error('Events could not be loaded. Please try again.')
-  return response.json()
+  try {
+    const data = await response.json()
+    if (!data || typeof data !== 'object' || Array.isArray(data)) throw new Error('Invalid response')
+    return data
+  } catch {
+    throw new Error('Ticketmaster returned an unexpected response. Please try again.')
+  }
 }

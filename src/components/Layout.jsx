@@ -1,11 +1,13 @@
-import React from 'react'
-import { Link, NavLink, Outlet } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { logout } from '../store/auth'
 
 export default function Layout() {
   const dispatch = useDispatch()
   const { user, status, error } = useSelector((state) => state.auth)
+  const { pathname } = useLocation()
+  useEffect(() => { window.scrollTo(0, 0) }, [pathname])
   return (
     <div className="app">
       <a className="skip-link" href="#main">Skip to content</a>
